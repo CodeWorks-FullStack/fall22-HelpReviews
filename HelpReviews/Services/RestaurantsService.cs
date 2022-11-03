@@ -3,6 +3,7 @@ namespace HelpReviews.Services;
 public class RestaurantsService
 {
   private readonly RestaurantsRepository _rr;
+  private readonly ReportsRepo _reportsRepo;
 
 
   public List<Restaurant> GetRestaurants()
@@ -65,8 +66,21 @@ public class RestaurantsService
     return _rr.CreateRestaurant(data);
   }
 
-  public RestaurantsService(RestaurantsRepository rr)
+  public RestaurantsService(RestaurantsRepository rr, ReportsRepo reportsRepo)
   {
     _rr = rr;
+    _reportsRepo = reportsRepo;
+  }
+
+  internal Restaurant ShutdownRestaurant(int id)
+  {
+    var restaurant = GetRestaurant(id);
+    var reports = _reportsRepo.GetReportsByRestaurantId(id);
+    if (reports.Count >= 3 && reports.Sum(r => r.Rating) < reports.Count)
+    {
+      restaurant.IsShutdown = true;
+      UpdateRestaurant(restaurant);
+    }
+    return restaurant;
   }
 }

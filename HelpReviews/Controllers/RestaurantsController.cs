@@ -120,6 +120,23 @@ public class RestaurantsController : ControllerBase
     }
   }
 
+  [Authorize]
+  [HttpPut("{id}/shut-it-down")]
+  public async Task<ActionResult<Restaurant>> Shutdown(int id)
+  {
+    try
+    {
+      var userInfo = await _ape.GetUserInfoAsync<Account>(HttpContext);
+      var restaurant = _rs.ShutdownRestaurant(id);
+      return Ok(restaurant);
+    }
+    catch (Exception e)
+    {
+      return BadRequest(e.Message);
+    }
+  }
+
+
 
   [Authorize]
   [HttpDelete("{id}")]
