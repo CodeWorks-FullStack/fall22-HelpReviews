@@ -29,6 +29,7 @@ import { logger } from '../utils/Logger.js';
 import { reportsService } from '../services/ReportsService.js';
 import Pop from '../utils/Pop.js';
 import { useRoute } from 'vue-router';
+import { Modal } from 'bootstrap';
 
 export default {
   setup() {
@@ -39,6 +40,8 @@ export default {
       async createReport() {
         try {
           await reportsService.createReport(editable.value, route.params.restaurantId)
+          editable.value = { rating: 3 }
+          Modal.getOrCreateInstance('#report-modal').hide()
         } catch (error) {
           logger.error(error)
           Pop.error(error.message)

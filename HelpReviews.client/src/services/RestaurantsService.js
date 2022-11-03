@@ -26,6 +26,13 @@ class RestaurantsService {
     const res = await api.get('api/restaurants/' + id)
     logger.log(res.data)
     AppState.restaurant = new Restaurant(res.data)
+    return res.data
+  }
+
+  async shutItDown(restaurantId) {
+    const res = await api.put('api/restaurants/' + restaurantId + '/shut-it-down')
+    logger.log('[SHUT IT DOWN 🚓]', res.data)
+    AppState.restaurant = new Restaurant(res.data)
   }
 
 }
