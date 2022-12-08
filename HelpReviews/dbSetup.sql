@@ -36,6 +36,7 @@ CREATE TABLE
 
 
 ALTER TABLE restaurants ADD COLUMN tags TEXT;
+ALTER TABLE restaurants MODIFY COLUMN imgUrl TEXT;
 
 
 
