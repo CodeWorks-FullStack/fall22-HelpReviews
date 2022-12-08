@@ -34,7 +34,7 @@ public class RestaurantsRepository : BaseRepo
       FROM restaurants r
       JOIN accounts a ON a.id = r.creatorId
       LEFT JOIN reports rep ON rep.restaurantId = r.id
-      WHERE r.id =  @id 
+      WHERE r.id =  @id
         GROUP BY r.id
       ;";
 
